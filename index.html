@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClipPilot: plan, edit, design and publish YouTube videos on Windows</title>
+<meta name="description" content="ClipPilot is a free YouTube studio for Windows. Plan videos with realistic checklists, edit with keyframes, make thumbnails in a Photoshop-style editor, and upload straight to YouTube. BEAN, the built-in assistant, helps along the way.">
+<meta name="keywords" content="ClipPilot, YouTube video planner, video editor for Windows, YouTube thumbnail maker, upload to YouTube, content planner, keyframe editor">
+<meta name="theme-color" content="#07060d">
+<link rel="canonical" href="https://clippilot-app.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClipPilot">
+<meta property="og:url" content="https://clippilot-app.github.io/">
+<meta property="og:title" content="ClipPilot: your whole YouTube workflow in one app">
+<meta property="og:description" content="Plan, edit, design the thumbnail and publish to YouTube, all from one Windows app. Free to start.">
+<meta property="og:image" content="https://clippilot-app.github.io/media/thumbnail-editor.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon.png" type="image/png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ClipPilot","description":"A YouTube studio for Windows: project planner, video editor, thumbnail editor and direct YouTube upload.","applicationCategory":"MultimediaApplication","operatingSystem":"Windows 10 or 11","url":"https://clippilot-app.github.io/","downloadUrl":"https://github.com/chiazorbryan-crypto/ClipPilot-updates/releases/latest","offers":{"@type":"Offer","price":"0","priceCurrency":"NGN"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07060d; --ink:#f3f1ff; --dim:rgba(243,241,255,.64); --faint:rgba(243,241,255,.4);
+  --a:#8b83f6; --b:#c084fc; --c:#ff5fa2; --d:#5ad1ff;
+  --rim:rgba(255,255,255,.15); --r:28px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+
+/* Living background */
+.aurora{position:fixed;inset:-20vmax;z-index:-2;opacity:.5;pointer-events:none}
+.aurora i{position:absolute;border-radius:50%;animation:float 22s ease-in-out infinite alternate;will-change:transform}
+.aurora i:nth-child(1){width:55vmax;height:55vmax;left:5%;top:0;background:radial-gradient(circle,var(--a),transparent 65%)}
+.aurora i:nth-child(2){width:45vmax;height:45vmax;right:0;top:15%;background:radial-gradient(circle,var(--c),transparent 65%);animation-duration:27s;animation-delay:-6s;opacity:.7}
+.aurora i:nth-child(3){width:50vmax;height:50vmax;left:25%;bottom:-10%;background:radial-gradient(circle,var(--d),transparent 62%);animation-duration:31s;animation-delay:-12s;opacity:.45}
+.aurora i:nth-child(4){width:30vmax;height:30vmax;right:20%;bottom:10%;background:radial-gradient(circle,var(--b),transparent 65%);animation-duration:19s}
+@keyframes float{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,-4vmax) scale(1.15)}100%{transform:translate(-5vmax,5vmax) scale(.92)}}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.cursor{position:fixed;left:0;top:0;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;pointer-events:none;z-index:-1;background:radial-gradient(circle,rgba(139,131,246,.18),transparent 60%);will-change:transform}
+
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.03));backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:1px solid var(--rim);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 30px 80px -30px rgba(0,0,0,.7)}
+
+/* Nav */
+nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:6px;padding:7px;border-radius:999px;width:max-content;max-width:calc(100% - 32px)}
+nav .brand{display:flex;align-items:center;gap:9px;padding:0 12px 0 6px;font-family:Syne;font-weight:700}
+nav .brand img{width:30px;height:30px;border-radius:9px}
+nav .links a{padding:9px 14px;border-radius:999px;font-size:14px;color:var(--dim);transition:.25s}
+nav .links a:hover{color:var(--ink);background:rgba(255,255,255,.08)}
+nav .get{padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;background:var(--ink);color:#120f24;transition:transform .25s}
+nav .get:hover{transform:scale(1.05)}
+@media (max-width:760px){nav .links{display:none}}
+
+section{position:relative;padding:120px 24px;max-width:1200px;margin:0 auto}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--a);font-weight:600}
+.kicker::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(44px,6.4vw,84px);line-height:1;letter-spacing:-.02em;margin:16px 0 18px}
+h2 .grad{font-style:italic;padding-right:.06em}
+.lead{color:var(--dim);font-size:clamp(16px,1.6vw,19px);max-width:580px}
+.grad{background:linear-gradient(90deg,var(--a),var(--b),var(--c),var(--d),var(--a));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s linear infinite}
+@keyframes sheen{to{background-position:300% 0}}
+
+/* Hero */
+.hero{min-height:100vh;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;gap:48px;padding-top:140px}
+.hero h1{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(78px,9.4vw,140px);line-height:.9;letter-spacing:-.03em;white-space:nowrap}
+.hero h1 span{display:inline-block;padding-right:.08em}
+.hero h1::after{content:"YouTube studio for Windows";display:block;font-family:Inter,system-ui,sans-serif;font-style:normal;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-top:16px}
+.hero .sub{margin:26px 0 34px;font-size:clamp(17px,1.8vw,21px);color:var(--dim);max-width:520px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;font-weight:600;font-size:16px;transition:transform .3s cubic-bezier(.2,.9,.3,1.4)}
+.btn:hover{transform:translateY(-3px) scale(1.03)}
+.btn.primary{background:linear-gradient(120deg,var(--a),var(--b));color:#fff;box-shadow:0 18px 50px -12px rgba(139,131,246,.85)}
+.btn.primary::after{content:"";position:absolute;inset:-3px;border-radius:inherit;background:inherit;filter:blur(18px);opacity:.5;z-index:-1;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.15;transform:scale(1.08)}}
+.btn.ghost{border:1px solid var(--rim);background:rgba(255,255,255,.05);backdrop-filter:blur(12px)}
+.meta{margin-top:22px;font-size:13px;color:var(--faint)}
+@media (max-width:980px){.hero{grid-template-columns:1fr;text-align:center;padding-top:120px}.hero .sub{margin-inline:auto}.btns{justify-content:center}}
+
+/* App window */
+.stage{position:relative;perspective:1600px}
+.win{position:relative;border-radius:16px;overflow:hidden;background:#0d0c14;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 60px 120px -30px rgba(0,0,0,.95),0 0 120px -30px rgba(139,131,246,.55);transform:rotateY(-12deg) rotateX(5deg);transition:transform .2s ease-out;transform-style:preserve-3d}
+.win .bar{display:flex;align-items:center;gap:7px;height:30px;padding:0 12px;background:#15131f;border-bottom:1px solid rgba(255,255,255,.07);font-size:12px;color:var(--faint)}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18)}
+.win .bar b{margin-left:8px;font-weight:500}
+.win img{width:100%;height:auto}
+.chip{position:absolute;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;animation:bob 6s ease-in-out infinite;white-space:nowrap;z-index:2}
+.chip .dot{width:10px;height:10px;border-radius:50%;background:var(--a);box-shadow:0 0 12px var(--a)}
+.chip.r .dot{background:#ff4d4d;box-shadow:0 0 12px #ff4d4d}
+.chip.a{left:-6%;top:8%}.chip.b{right:-4%;top:42%;animation-delay:-2s}.chip.c{left:4%;bottom:-6%;animation-delay:-4s}.chip.d{right:6%;top:-6%;animation-delay:-3s}
+@keyframes bob{50%{transform:translateY(-14px)}}
+@media (max-width:980px){.chip.a{left:0}.chip.b{right:0}}
+
+/* Marquee */
+.marquee{padding:30px 24px;border-block:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}
+.marquee .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 28px;max-width:1200px;margin:0 auto}
+.marquee span{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(24px,2.8vw,38px);line-height:1.2;white-space:nowrap;color:var(--dim)}
+.marquee span:nth-child(3n+1){color:var(--ink)}
+.marquee span:not(:last-child)::after{content:"✦";margin-left:28px;color:var(--a);font-style:normal;font-size:.5em;vertical-align:middle}
+
+/* Showcase */
+.show{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px}
+.shot{margin:0}
+.shot img{width:100%;height:auto;border-radius:16px;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 90px -30px rgba(0,0,0,.9)}
+.shot.big{grid-column:1/-1}
+.shot figcaption{margin-top:14px;font-size:15px;color:var(--dim)}
+.shot figcaption b{display:block;font-family:Syne;color:var(--ink);font-size:19px;margin-bottom:2px}
+@media (max-width:760px){.show{grid-template-columns:1fr;gap:30px;margin-top:30px}}
+
+/* Features */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:56px}
+.card{grid-column:span 4;border-radius:var(--r);padding:30px;position:relative;overflow:hidden;transition:transform .25s ease-out,border-color .3s;min-height:240px;display:flex;flex-direction:column}
+.card.wide{grid-column:span 8}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(139,131,246,.18),transparent 40%);opacity:0;transition:opacity .3s}
+.card:hover::before{opacity:1}
+.card:hover{border-color:rgba(139,131,246,.45)}
+.card .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:auto;background:linear-gradient(135deg,rgba(139,131,246,.3),rgba(255,95,162,.15));border:1px solid rgba(255,255,255,.15)}
+.card .ico svg{width:24px;height:24px}
+.card h3{font-family:Syne;font-size:23px;margin:26px 0 8px}
+.card p{color:var(--dim);font-size:15px}
+@media (max-width:900px){.card,.card.wide{grid-column:span 12}}
+
+/* BEAN */
+.bean{text-align:center}
+.bean .lead{margin-inline:auto}
+.orb{width:min(320px,68vw);aspect-ratio:1;margin:60px auto 0;border-radius:50%;position:relative;display:grid;place-items:center}
+.orb::before,.orb::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--a),var(--b),var(--c),var(--d),var(--a));filter:blur(28px);animation:spin 9s linear infinite;will-change:transform}
+.orb::after{inset:10%;filter:blur(2px);opacity:.9;animation-duration:14s;animation-direction:reverse;-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%);mask:radial-gradient(circle,transparent 58%,#000 60%)}
+.orb .core{position:relative;z-index:1;width:56%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#a59ff9,#7a70f0);box-shadow:0 20px 60px -10px rgba(139,131,246,.6);font-family:Syne;font-weight:800;font-size:clamp(26px,4vw,36px);letter-spacing:.04em;color:#fff}
+.orb .ring{position:absolute;inset:-8%;border-radius:50%;border:1px solid rgba(255,255,255,.12);animation:ripple 3.6s ease-out infinite}
+.orb .ring:nth-of-type(2){animation-delay:1.2s}.orb .ring:nth-of-type(3){animation-delay:2.4s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes ripple{from{transform:scale(.8);opacity:.9}to{transform:scale(1.45);opacity:0}}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:44px}
+.pills span{padding:10px 18px;border-radius:999px;font-size:14px;color:var(--dim)}
+
+/* Plans */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}
+.plan{border-radius:var(--r);padding:30px;display:flex;flex-direction:column}
+.plan.hot{border-color:rgba(139,131,246,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 0 0 1px rgba(139,131,246,.35),0 30px 80px -30px rgba(139,131,246,.5)}
+.plan h3{font-family:Syne;font-size:22px;display:flex;align-items:center;gap:10px}
+.plan h3 small{font-family:Inter;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(139,131,246,.25);color:#d9d6ff}
+.plan .price{margin:14px 0 4px;font-family:Syne;font-weight:800;font-size:40px;line-height:1}
+.plan .price span{font-family:Inter;font-weight:500;font-size:14px;color:var(--faint);white-space:nowrap}
+.plan .sub{color:var(--dim);font-size:14px;margin-bottom:18px}
+.plan ul{list-style:none;display:grid;gap:9px;font-size:14px;color:#e6e4f5}
+.plan li{display:flex;gap:10px}.plan li::before{content:"✓";color:var(--a);font-weight:700}
+.note{margin-top:18px;font-size:13px;color:var(--faint)}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+
+/* Download */
+.cta{text-align:center;border-radius:44px;padding:90px 28px;margin:40px auto 0;max-width:1100px;overflow:hidden;position:relative}
+.cta::before{content:"";position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent,rgba(139,131,246,.4),transparent 30%,rgba(255,95,162,.3),transparent 60%);animation:spin 12s linear infinite;z-index:-1}
+.cta::after{content:"";position:absolute;inset:2px;border-radius:42px;background:rgba(9,8,16,.86);z-index:-1}
+.cta .lead{margin:0 auto 34px}
+.steps{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px;font-size:14px;color:var(--dim)}
+.steps span{padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.1)}
+footer{text-align:center;padding:70px 24px 50px;color:var(--faint);font-size:14px}
+footer .sig{font-family:Syne;font-weight:700;font-size:18px;color:var(--ink);margin-bottom:8px}
+
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.hero h1 span{opacity:0;transform:translateY(60%) rotate(4deg);animation:rise 1.1s cubic-bezier(.2,.9,.25,1.15) forwards}
+.hero h1 span:nth-child(2){animation-delay:.12s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+@media (max-width:720px){
+  section{padding:68px 16px}
+  .hero{min-height:auto;padding-top:100px;gap:40px}
+  .hero h1{font-size:clamp(58px,17vw,92px)}
+  .hero .sub{font-size:16px;margin:18px auto 24px}
+  .btns{flex-direction:column;align-items:stretch;max-width:340px;margin:0 auto}
+  .btn{justify-content:center;padding:15px 22px}
+  .win{transform:none!important}
+  .stage{display:grid;grid-template-columns:1fr 1fr;gap:8px;perspective:none}
+  .stage .win{grid-column:1/-1;margin-bottom:10px}
+  .chip{position:static;animation:none;font-size:12px;padding:9px 12px;border-radius:14px;justify-content:center;white-space:normal;text-align:center}
+  .marquee{padding:20px 14px}.marquee span{font-size:22px}
+  h2{font-size:clamp(40px,12vw,56px);margin:12px 0 14px}
+  .lead{font-size:16px}
+  .grid{margin-top:32px;gap:12px}
+  .card{min-height:0;padding:22px;border-radius:22px}.card h3{font-size:20px;margin:16px 0 6px}
+  .orb{width:min(230px,60vw);margin-top:36px}
+  .plans{margin-top:30px;gap:12px}.plan{padding:24px}.plan .price{font-size:34px}
+  .cta{padding:52px 20px;border-radius:30px;margin-top:10px}.cta::after{border-radius:28px}
+  .steps{flex-direction:column;align-items:center;gap:8px}
+  .cursor{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv,.hero h1 span{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i><i></i></div>
+<div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+
+<nav class="glass">
+  <a class="brand" href="#top"><img src="icon.png" alt="">ClipPilot</a>
+  <div class="links"><a href="#tour">Tour</a><a href="#features">Features</a><a href="#bean">BEAN</a><a href="#plans">Plans</a><a href="/privacy/">Privacy</a></div>
+  <a class="get" href="#download">Download</a>
+</nav>
+
+<section class="hero" id="top">
+  <div>
+    <h1><span>Clip</span><span class="grad">Pilot</span></h1>
+    <p class="sub">Plan the video, cut it, design the thumbnail and upload it to YouTube, all in one app. No more juggling five tools to get one video out.</p>
+    <div class="btns">
+      <a class="btn primary dl" href="https://github.com/chiazorbryan-crypto/ClipPilot-updates/releases/latest">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.5 4.5v7H3zM11.5 4.4 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.4z"/></svg>
+        Download for Windows
+      </a>
+      <a class="btn ghost" href="#tour">See it in action</a>
+    </div>
+    <p class="meta"><span class="ver">Free to start</span> · Windows 10 &amp; 11 · updates itself</p>
+  </div>
+  <div class="stage">
+    <div class="win" id="win"><div class="bar"><i></i><i></i><i></i><b>ClipPilot · Thumbnails</b></div><img src="media/thumbnail-editor.jpg" width="1440" height="900" alt="ClipPilot's thumbnail editor with layers, text outlines and a glow effect"></div>
+    <div class="chip glass a"><span class="dot"></span>Layers, outlines, glow</div>
+    <div class="chip glass d r"><span class="dot"></span>Upload straight to YouTube</div>
+    <div class="chip glass b">✦ BEAN can edit it for you</div>
+    <div class="chip glass c">⏱ Realistic planner times</div>
+  </div>
+</section>
+
+<div class="marquee"><div class="row" id="mq"></div></div>
+
+<section id="tour">
+  <div class="rv">
+    <span class="kicker">The tour</span>
+    <h2>From idea<br><span class="grad">to uploaded.</span></h2>
+    <p class="lead">Every step of making a video lives in the same place, and each one hands off to the next. Your thumbnail and your title are already waiting when you hit Publish.</p>
+  </div>
+  <div class="show">
+    <figure class="shot big rv"><img src="media/publish.jpg" width="1440" height="900" loading="lazy" alt="The Publish tab: thumbnail preview, chosen video file and a Publish to YouTube button"><figcaption><b>Publish without leaving the app</b>Pick the video, check the title, description, tags and thumbnail, then upload. Private, unlisted, public or scheduled.</figcaption></figure>
+    <figure class="shot rv"><img src="media/dashboard.jpg" width="1440" height="900" loading="lazy" alt="ClipPilot dashboard showing the next step, a week calendar and videos in production"><figcaption><b>A dashboard that tells you what's next</b>Your next step, how long it'll really take, and every video in motion.</figcaption></figure>
+    <figure class="shot rv"><img src="media/editor.jpg" width="1440" height="900" loading="lazy" alt="ClipPilot video editor with a ribbon toolbar, preview and multi-track timeline"><figcaption><b>A real video editor</b>Multi-track timeline, keyframes, captions, voiceover and export up to 4K.</figcaption></figure>
+  </div>
+</section>
+
+<section id="features">
+  <div class="rv">
+    <span class="kicker">Everything in one place</span>
+    <h2>Five tools.<br><span class="grad">One app.</span></h2>
+  </div>
+  <div class="grid">
+    <div class="card wide glass rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div><h3>Thumbnail editor</h3><p>Photoshop-style layers, text with thick outlines, drop shadows and glow, shapes, brush and eraser, blend modes, picture adjustments and full undo history. Drop a photo in, add the big words, done.</p></div>
+    <div class="card glass rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L7 8m5-5 5 5"/><path d="M5 21h14"/></svg></div><h3>Publish to YouTube</h3><p>Upload the video and set its thumbnail straight from ClipPilot, with a progress bar and schedule support.</p></div>
+    <div class="card glass rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h3>Project planner</h3><p>Pick a format like commentary, short or tutorial and get a checklist with honest times, an outline and a script space.</p></div>
+    <div class="card glass rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 4v16M17 4v16M2 9h5M2 15h5M17 9h5M17 15h5"/></svg></div><h3>Video editor</h3><p>Split, trim, ripple, keyframes on anything, custom curves, speed control, colour grading, green screen and auto-duck.</p></div>
+    <div class="card glass rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></div><h3>Voice studio</h3><p>Record and clean up voiceovers, then drop them on the timeline.</p></div>
+    <div class="card wide glass rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/></svg></div><h3>Channel analytics</h3><p>Connect your channel to see subscribers, views, watch time, traffic sources and your top videos, right next to what you're making now.</p></div>
+  </div>
+</section>
+
+<section class="bean" id="bean">
+  <div class="rv">
+    <span class="kicker">Meet BEAN</span>
+    <h2>An assistant that<br><span class="grad">does the clicking.</span></h2>
+    <p class="lead">BEAN lives in every part of ClipPilot. Ask it to plan a video, tidy your script, make cuts in the editor or add the title text to your thumbnail, and it does the work while you watch.</p>
+  </div>
+  <div class="orb rv"><span class="ring"></span><span class="ring"></span><span class="ring"></span><div class="core">BEAN</div></div>
+  <div class="pills rv"><span class="glass">Plans videos</span><span class="glass">Writes outlines</span><span class="glass">Edits the timeline</span><span class="glass">Designs thumbnails</span><span class="glass">Undo anything</span></div>
+</section>
+
+<section id="plans">
+  <div class="rv">
+    <span class="kicker">Plans</span>
+    <h2>Start free.<br><span class="grad">Grow when ready.</span></h2>
+    <p class="lead">Everything you need to finish a video is free. Upgrade inside the app when you want motion, colour and more projects.</p>
+  </div>
+  <div class="plans">
+    <div class="plan glass rv"><h3>Free</h3><div class="price">₦0</div><div class="sub">Everything you need to cut and finish a video.</div><ul><li>Trim, split, snap and ripple edits</li><li>Up to 4 tracks of each kind</li><li>Export up to 1080p</li><li>Thumbnail editor and YouTube upload</li><li>5 editor projects and 5 planner videos</li></ul></div>
+    <div class="plan glass hot rv"><h3>Pro <small>Popular</small></h3><div class="price">₦7,000 <span>/ month</span></div><div class="sub">Motion and colour for animated edits.</div><ul><li>Everything in Free</li><li>Keyframes on any property</li><li>Zoom, pan, pop, slide and spin presets</li><li>Brightness, contrast, saturation, hue and blur</li><li>Up to 10 tracks of each kind</li><li>Unlimited projects and planner videos</li><li>More BEAN messages</li></ul></div>
+    <div class="plan glass rv"><h3>Elite</h3><div class="price">₦14,000 <span>/ month</span></div><div class="sub">Finishing tools for serious channels.</div><ul><li>Everything in Pro</li><li>Speed from 0.25× to 4×</li><li>Colour grading and film looks</li><li>Green screen</li><li>Bounce, elastic and custom curves</li><li>Auto-duck music under voiceovers</li><li>1440p and 4K export</li><li>The most BEAN messages</li></ul></div>
+  </div>
+  <p class="note rv">Payments are handled by Paystack inside the app. Prices are monthly.</p>
+</section>
+
+<section id="download">
+  <div class="cta glass rv">
+    <span class="kicker">Get ClipPilot</span>
+    <h2>Make the next one.</h2>
+    <p class="lead">One installer for Windows. After that, ClipPilot updates itself whenever there's a new version.</p>
+    <div class="btns" style="justify-content:center">
+      <a class="btn primary dl" href="https://github.com/chiazorbryan-crypto/ClipPilot-updates/releases/latest">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.5 4.5v7H3zM11.5 4.4 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.4z"/></svg>
+        <span class="dl-label">Download for Windows</span>
+      </a>
+    </div>
+    <div class="steps"><span>1. Run the setup file</span><span>2. If Windows warns you, choose More info, then Run anyway</span><span>3. Open ClipPilot and connect YouTube</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="sig">ClipPilot</div>
+  ClipPilot is made by voxella voice. Contact: <a href="mailto:chiazorbryan@gmail.com" style="color:var(--dim)">chiazorbryan@gmail.com</a><br>
+  With your permission, ClipPilot uses your Google account to show your channel stats and analytics and to upload the videos you choose.<br>
+  How your data is handled: <a href="/privacy/" style="color:var(--dim)">Privacy Policy</a> · <a href="/terms/" style="color:var(--dim)">Terms of Service</a><br>
+  Not affiliated with or endorsed by YouTube or Google. · <a href="https://github.com/chiazorbryan-crypto/ClipPilot-updates/releases" style="color:var(--dim)">All releases</a>
+</footer>
+
+<script>
+(() => {
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // The setup file's name includes its version, so ask GitHub for the newest one and link to it directly.
+  // If that fails, the buttons still go to the latest release page.
+  fetch('https://api.github.com/repos/chiazorbryan-crypto/ClipPilot-updates/releases/latest', { headers: { Accept: 'application/vnd.github+json' } })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(rel => {
+      const exe = (rel.assets || []).find(a => /^ClipPilot-Setup-.*\.exe$/i.test(a.name));
+      if (!exe) return;
+      const mb = Math.round(exe.size / 1048576), v = String(rel.tag_name || '').replace(/^v/, '');
+      document.querySelectorAll('a.dl').forEach(a => a.href = exe.browser_download_url);
+      document.querySelectorAll('.dl-label').forEach(s => s.textContent = `Download ClipPilot ${v} · ${mb} MB`);
+      document.querySelectorAll('.ver').forEach(s => s.textContent = `Version ${v} · ${mb} MB`);
+    }).catch(() => {});
+
+  const words = ['Project planner', 'Video editor', 'Thumbnail editor', 'Publish to YouTube', 'Keyframes', 'Voice studio', 'Analytics', 'BEAN assistant', '4K export', 'Green screen'];
+  document.getElementById('mq').innerHTML = words.map(w => `<span>${w}</span>`).join('');
+
+  const cur = document.getElementById('cursor'), win = document.getElementById('win');
+  let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty;
+  addEventListener('pointermove', e => {
+    tx = e.clientX; ty = e.clientY;
+    if (win && !still && e.pointerType === 'mouse' && innerWidth > 720) {
+      const r = win.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) / innerWidth, dy = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+      win.style.transform = `rotateY(${-12 + dx * 16}deg) rotateX(${5 - dy * 12}deg)`;
+    }
+  }, { passive: true });
+  (function loop() { x += (tx - x) * .12; y += (ty - y) * .12; cur.style.transform = `translate(${x}px,${y}px)`; requestAnimationFrame(loop); })();
+
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('pointermove', e => {
+      const r = c.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      c.style.setProperty('--mx', px * 100 + '%'); c.style.setProperty('--my', py * 100 + '%');
+      if (!still && e.pointerType === 'mouse') c.style.transform = `perspective(900px) rotateX(${(.5 - py) * 7}deg) rotateY(${(px - .5) * 9}deg) translateY(-4px)`;
+    });
+    c.addEventListener('pointerleave', () => c.style.transform = '');
+  });
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: .15 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
