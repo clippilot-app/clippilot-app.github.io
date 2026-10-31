@@ -19,7 +19,7 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <header><a class="brand" href="/">Clip<span>Pilot</span></a><nav><a href="/">Home</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></header>
 <main>
 <h1>Privacy Policy</h1>
-<p class="mu">Last updated: 29 October 2026</p>
+<p class="mu">Last updated: 31 October 2026</p>
 <p>This policy explains what information ClipPilot (the Windows app and its account server) collects, why, and the choices you have. ClipPilot is made by voxella voice ("we", "us"). If you have a question, email <a href="mailto:chiazorbryan@gmail.com">chiazorbryan@gmail.com</a>.</p>
 
 <h2>The short version</h2>
@@ -27,7 +27,8 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <li>Your projects, scripts, voice recordings, thumbnails and media files stay on your PC. We never upload them to our servers.</li>
 <li>If you sign in, we keep your name, email address and Google account ID so you can have an account and a paid plan.</li>
 <li>The app sends anonymous usage reports (which you can turn off) so we can count active users.</li>
-<li>YouTube and Google Drive features talk directly between your PC and Google. Your YouTube and Drive data does not pass through our servers.</li>
+<li>YouTube and Google Drive features talk directly between your PC and Google. The only YouTube information that reaches our server is your channel's public profile if you use Creator Chat, and the channel totals BEAN may see.</li>
+<li>If you use Creator Chat, the messages you send are stored on our server so the other person can read them.</li>
 <li>We don't sell your information, and we don't use it for advertising.</li>
 </ul>
 
@@ -40,6 +41,9 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <p>Unless you turn them off (Settings → Account), the app sends a report about every 10 minutes while it is open. It contains a random ID for that copy of ClipPilot, the app version and edition, the Windows version, and how many times a few features were used (for example the video editor, export, Voice Studio, BEAN, cloud backup and analytics). It never contains your projects, file names, scripts, YouTube data or anything you type. If you are signed in, the report is linked to your account so we can see active accounts. To stop fake reports, our server keeps a scrambled (hashed) version of your network address for up to 2 days; it never stores the address itself.</p>
 <h3>BEAN, the in-app assistant</h3>
 <p>When you chat with BEAN, the app sends your message and the information BEAN needs to answer to our server: for example project and video names, plans, scripts, timeline details, thumbnail layers, and, if YouTube is connected, your channel's subscriber, view and video totals. Our server passes this to Cloudflare Workers AI to produce the answer and returns it to your PC. We do not store your conversations; we keep only how many BEAN messages each account sent each day (and the size of those requests) to apply daily limits. Your conversation history stays on your PC.</p>
+<h3>Creator Chat (optional)</h3>
+<p>Creator Chat lets signed-in ClipPilot users message each other. Your chat profile is your YouTube channel. When you set it up (or click Refresh from YouTube), the app sends your YouTube access key to our server once, and our server asks YouTube which channel it belongs to (the YouTube "read only" permission). We keep only your channel's public details: the channel ID, name, @handle, profile picture link and public subscriber count (if the channel shows it), plus whether you want to appear in search. The access key is used for that one request and is never stored on our server.</p>
+<p>We store the chat messages you send, who they were sent to and when, which messages each person has read, chat requests (accepted or declined), people you block, and reports you send, so the chat can work and we can deal with abuse. Your email address is never shown to other users. The owner of ClipPilot may read a reported conversation's messages to handle the report.</p>
 <h3>Information we don't collect</h3>
 <p>We don't collect your media files, voice recordings, exported videos, thumbnails, project files, YouTube passwords, card numbers or contacts.</p>
 
@@ -49,16 +53,18 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <tr><th>Feature</th><th>Google permission</th><th>What ClipPilot does with it</th></tr>
 <tr><td>Channel dashboard and analytics</td><td>YouTube (read only), YouTube Analytics (read only)</td><td>Shows your channel, videos and statistics inside the app.</td></tr>
 <tr><td>Publish to YouTube</td><td>Upload YouTube videos</td><td>Uploads the video, title, description, tags, privacy setting and thumbnail you choose, only when you click Publish.</td></tr>
+<tr><td>Creator Chat profile</td><td>YouTube (read only)</td><td>Confirms which channel is yours, once, and shows its public name, @handle, picture and subscriber count as your chat profile.</td></tr>
 <tr><td>Cloud backup</td><td>Google Drive: app data folder and files ClipPilot creates</td><td>Saves and restores your ClipPilot backups in your own Google Drive. ClipPilot can't see your other Drive files.</td></tr>
 </table>
-<p>The access keys for these features are stored on your PC, encrypted with Windows' own protection. YouTube and Drive requests go directly from your PC to Google; they do not pass through our servers. The only exception is the channel totals BEAN may see, described above.</p>
+<p>The access keys for these features are stored on your PC, encrypted with Windows' own protection. YouTube and Drive requests go directly from your PC to Google; they do not pass through our servers. The exceptions are the channel totals BEAN may see and the one-time channel check for Creator Chat, both described above.</p>
 <p>ClipPilot uses YouTube API Services. By using the YouTube features you agree to the <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>, and Google's handling of your information is covered by the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. You can remove ClipPilot's access to your Google account at any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>, or disconnect inside the app.</p>
 <p><b>Limited Use.</b> ClipPilot's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements. We use Google user data only to provide the features you see in ClipPilot. We don't sell it, use it for advertising, let people read it (unless you ask us to for support, it is needed for security or the law requires it), or use it to train AI models.</p>
 
 <h2>Who we share information with</h2>
 <p>We share information only with services that run ClipPilot for us, and only what they need:</p>
 <ul>
-<li><b>Cloudflare</b> hosts our account server and database, and runs the AI model for BEAN.</li>
+<li><b>Cloudflare</b> hosts our account server and database (including Creator Chat messages), and runs the AI model for BEAN.</li>
+<li><b>Other ClipPilot users</b> you chat with see your chat profile (your YouTube channel's public details) and the messages you send them.</li>
 <li><b>Paystack</b> processes payments.</li>
 <li><b>Google</b> provides sign-in, and the YouTube and Drive features you choose to use.</li>
 <li><b>GitHub</b> hosts the ClipPilot installer and app updates.</li>
@@ -69,6 +75,8 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <ul>
 <li>Your account: until you delete it.</li>
 <li>Usage reports and daily BEAN counts: about 13 months.</li>
+<li>Creator Chat profile and messages: until you delete your account. Deleting your account removes your chat profile, the messages you sent, your read status and your blocks.</li>
+<li>Chat reports: kept until they are dealt with, then for up to 13 months.</li>
 <li>Sessions: until you sign out, or 30 days.</li>
 <li>Payment records: as long as accounting and tax rules require. If you delete your account, they are no longer linked to you.</li>
 </ul>
@@ -76,7 +84,8 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <h2>Your choices and rights</h2>
 <ul>
 <li>Turn usage reports off in Settings → Account.</li>
-<li>Delete your account in Settings → Account (cancel any paid plan first). This removes your account, sessions, history and BEAN counts from our server.</li>
+<li>Delete your account in Settings → Account (cancel any paid plan first). This removes your account, sessions, history, BEAN counts, chat profile and the chat messages you sent from our server.</li>
+<li>In Creator Chat you can hide yourself from search, decline chat requests, and block or report anyone.</li>
 <li>Disconnect YouTube or Google Drive in the app, or at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</li>
 <li>You can ask us for a copy of your information, or to correct or delete it, by emailing <a href="mailto:chiazorbryan@gmail.com">chiazorbryan@gmail.com</a>. If you are in Nigeria, you also have rights under the Nigeria Data Protection Act 2023, including the right to complain to the Nigeria Data Protection Commission.</li>
 </ul>
