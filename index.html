@@ -80,7 +80,7 @@ h2 .grad{font-style:italic;padding-right:.06em}
 @keyframes pulse{50%{opacity:.15;transform:scale(1.08)}}
 .btn.ghost{border:1px solid var(--rim);background:rgba(255,255,255,.05);backdrop-filter:blur(12px)}
 .meta{margin-top:22px;font-size:13px;color:var(--faint)}
-@media (max-width:980px){.hero{grid-template-columns:1fr;text-align:center;padding-top:120px}.hero .sub{margin-inline:auto}.btns{justify-content:center}}
+@media (max-width:980px){.hero{grid-template-columns:minmax(0,1fr);text-align:center;padding-top:120px}.hero>*{min-width:0}.hero .sub{margin-inline:auto}.btns{justify-content:center}}
 
 /* App window */
 .stage{position:relative;perspective:1600px}
@@ -171,8 +171,11 @@ footer .sig{font-family:Syne;font-weight:700;font-size:18px;color:var(--ink);mar
 
 @media (max-width:720px){
   section{padding:68px 16px}
-  .hero{min-height:auto;padding-top:100px;gap:40px}
-  .hero h1{font-size:clamp(58px,17vw,92px)}
+  .hero{min-height:auto;padding-top:100px;gap:40px;grid-template-columns:minmax(0,1fr)}
+  .hero>*{min-width:0}
+  /* "ClipPilot" stays on one line, so it has to shrink to fit the narrowest phones (320px). */
+  .hero h1{font-size:clamp(40px,13vw,92px)}
+  .hero h1::after{white-space:normal;font-size:12px;letter-spacing:.18em;line-height:1.6}
   .hero .sub{font-size:16px;margin:18px auto 24px}
   .btns{flex-direction:column;align-items:stretch;max-width:340px;margin:0 auto}
   .btn{justify-content:center;padding:15px 22px}
