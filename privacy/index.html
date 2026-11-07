@@ -19,12 +19,13 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <header><a class="brand" href="/">Clip<span>Pilot</span></a><nav><a href="/">Home</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></header>
 <main>
 <h1>Privacy Policy</h1>
-<p class="mu">Last updated: 31 October 2026</p>
+<p class="mu">Last updated: 7 November 2026</p>
 <p>This policy explains what information ClipPilot (the Windows app and its account server) collects, why, and the choices you have. ClipPilot is made by voxella voice ("we", "us"). If you have a question, email <a href="mailto:ClipPilot.support@gmail.com">ClipPilot.support@gmail.com</a>.</p>
 
 <h2>The short version</h2>
 <ul>
-<li>Your projects, scripts, voice recordings, thumbnails and media files stay on your PC. We never upload them to our servers.</li>
+<li>Your projects, scripts, voice recordings, thumbnails and media files stay on your computer or phone. We never store them on our servers. The only exception is the speech-to-text step of auto captions and auto-cut, which sends short pieces of sound to our server to be turned into words and keeps nothing.</li>
+<li>Editing AI tools like background removal, auto-reframe, studio sound, auto-cut’s silence detection and LUTs run entirely on your device.</li>
 <li>If you sign in, we keep your name, email address and Google account ID so you can have an account and a paid plan.</li>
 <li>The app sends anonymous usage reports (which you can turn off) so we can count active users.</li>
 <li>YouTube and Google Drive features talk directly between your PC and Google. The only YouTube information that reaches our server is your channel's public profile if you use Creator Chat, and the channel totals BEAN may see.</li>
@@ -41,6 +42,11 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <p>Unless you turn them off (Settings → Account), the app sends a report about every 10 minutes while it is open. It contains a random ID for that copy of ClipPilot, the app version and edition, the Windows version, and how many times a few features were used (for example the video editor, export, Voice Studio, BEAN, cloud backup and analytics). It never contains your projects, file names, scripts, YouTube data or anything you type. If you are signed in, the report is linked to your account so we can see active accounts. To stop fake reports, our server keeps a scrambled (hashed) version of your network address for up to 2 days; it never stores the address itself.</p>
 <h3>BEAN, the in-app assistant</h3>
 <p>When you chat with BEAN, the app sends your message and the information BEAN needs to answer to our server: for example project and video names, plans, scripts, timeline details, thumbnail layers, and, if YouTube is connected, your channel's subscriber, view and video totals. Our server passes this to Cloudflare Workers AI to produce the answer and returns it to your PC. We do not store your conversations; we keep only how many BEAN messages each account sent each day (and the size of those requests) to apply daily limits. Your conversation history stays on your PC.</p>
+<p>Your BEAN chat history (so you can reopen old chats) is saved on your own device, not on our server. You can delete any saved chat from BEAN's History. When BEAN uses an editing tool for you, it asks your permission first; it always asks before anything that changes your YouTube channel.</p>
+<h3>Auto captions, auto-cut and the Shorts maker (optional)</h3>
+<p>When you use auto captions, or auto-cut's filler-word and retake detection, the app takes only the sound of the parts of your video you use, as small pieces of low-quality mono audio, and sends them to our server, which passes them to Cloudflare Workers AI for speech-to-text and returns the words with their timings. The audio is not stored, by us or by the AI service, and is never used to train AI models. The Shorts maker and channel coach send the transcript text (not the video) the same way. We keep only how many caption minutes each account used each day. Local copies the app makes for this are deleted from your device after a day.</p>
+<h3>On-device AI tools</h3>
+<p>Background removal, auto-reframe, studio sound, loudness mastering, silence detection, LUT colour looks, text to speech and the thumbnail cutout run on your own device using bundled AI models and FFmpeg. Nothing from these tools is sent to us.</p>
 <h3>Creator Chat (optional)</h3>
 <p>Creator Chat lets signed-in ClipPilot users message each other. Your chat profile is your YouTube channel. When you set it up (or click Refresh from YouTube), the app sends your YouTube access key to our server once, and our server asks YouTube which channel it belongs to (the YouTube "read only" permission). We keep only your channel's public details: the channel ID, name, @handle, profile picture link and public subscriber count (if the channel shows it), plus whether you want to appear in search. The access key is used for that one request and is never stored on our server.</p>
 <p>We store the chat messages you send, who they were sent to and when, which messages each person has read, chat requests (accepted or declined), people you block, and reports you send, so the chat can work and we can deal with abuse. Your email address is never shown to other users. The owner of ClipPilot may read a reported conversation's messages to handle the report.</p>
@@ -63,7 +69,7 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <h2>Who we share information with</h2>
 <p>We share information only with services that run ClipPilot for us, and only what they need:</p>
 <ul>
-<li><b>Cloudflare</b> hosts our account server and database (including Creator Chat messages), and runs the AI model for BEAN.</li>
+<li><b>Cloudflare</b> hosts our account server and database (including Creator Chat messages), and runs the AI models for BEAN and speech-to-text.</li>
 <li><b>Other ClipPilot users</b> you chat with see your chat profile (your YouTube channel's public details) and the messages you send them.</li>
 <li><b>Paystack</b> processes payments.</li>
 <li><b>Google</b> provides sign-in, and the YouTube and Drive features you choose to use.</li>
@@ -99,4 +105,4 @@ footer{padding-bottom:30px;color:var(--mu);font-size:14px}
 <h2>Changes</h2>
 <p>If we change this policy, we will update the date at the top. For important changes we will also tell you in the app.</p></main>
 <footer>ClipPilot is made by voxella voice. Contact: <a href="mailto:ClipPilot.support@gmail.com">ClipPilot.support@gmail.com</a></footer>
-</body></html>
+</body></html>
