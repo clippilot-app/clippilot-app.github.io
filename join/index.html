@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Join a ClipPilot project</title><meta name="description" content="You've been invited to work on a ClipPilot project together.">
+<meta name="robots" content="noindex"><meta name="referrer" content="no-referrer">
+<style>
+:root{--bg:#f7f7fa;--card:#fff;--tx:#17171c;--mu:#5d5f6b;--ac:#6d4aff;--ln:#e3e3ea}
+@media (prefers-color-scheme:dark){:root{--bg:#101114;--card:#17181d;--tx:#f2f2f5;--mu:#a2a3b0;--ac:#a58bff;--ln:#2a2b33}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+header,main,footer{max-width:640px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:22px;padding-bottom:10px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;color:var(--tx);text-decoration:none}.brand span{color:var(--ac)}
+main{padding-top:10px;padding-bottom:40px}h1{font-size:28px;line-height:1.2;margin:18px 0 6px}
+.mu{color:var(--mu)}a{color:var(--ac)}ol{padding-left:22px}li{margin:6px 0}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:18px 20px;margin:16px 0}
+.btn{display:inline-block;background:var(--ac);color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:10px;border:0;font-size:16px;cursor:pointer;margin:6px 8px 0 0}
+.btn.g{background:transparent;color:var(--ac);border:1px solid var(--ln)}
+.code{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.code input{flex:1;min-width:0;font:15px ui-monospace,Consolas,monospace;padding:10px 12px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--tx)}
+footer{padding-bottom:30px;color:var(--mu);font-size:14px}
+</style></head><body>
+<header><a class="brand" href="/">Clip<span>Pilot</span></a></header>
+<main>
+<h1>You've been invited to a project</h1>
+<p class="mu" id="sub">Someone shared a ClipPilot project with you. Join it to edit the video and record voice-overs together.</p>
+<div class="card" id="has">
+<button class="btn" id="open" type="button">Open in ClipPilot</button>
+<a class="btn g" href="https://github.com/chiazorbryan-crypto/ClipPilot-updates/releases/latest">Get ClipPilot for Windows</a>
+<a class="btn g" href="https://github.com/clippilot-app/clippilot-app.github.io/releases/latest/download/ClipPilot-Android.apk">Android</a>
+<p class="mu" style="margin:14px 0 0">If nothing opens, copy this invite code, then in ClipPilot go to <b>Projects → Shared → Join with a link</b> and paste it.</p>
+<div class="code"><input id="code" readonly aria-label="Invite code"><button class="btn g" id="copy" type="button" style="margin:0">Copy</button></div>
+</div>
+<div class="card" id="none" hidden><b>This invite link is incomplete.</b><p class="mu" style="margin:6px 0 0">Ask the person who shared it to send the whole link again, or to show you the QR code.</p></div>
+<div class="card"><b>How it works</b><ol>
+<li>You need ClipPilot 0.7.1 or newer, signed in, with Creator Chat set up.</li>
+<li>Once you join, the project stays in your ClipPilot until its owner deletes it or removes you.</li>
+<li>The project file is kept in sync through ClipPilot's server; video and audio files go straight between your PCs.</li>
+</ol></div>
+</main>
+<footer>ClipPilot · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></footer>
+<script>
+// The invite code stays after the "#" so it is never sent to this website's server.
+(function () {
+  var t = (location.hash || '').replace(/^#/, '').trim();
+  if (!/^[A-Za-z0-9_-]{16,80}$/.test(t)) { document.getElementById('has').hidden = true; document.getElementById('none').hidden = false; return; }
+  var app = 'clippilot://join/' + t;
+  document.getElementById('code').value = location.href.split('#')[0] + '#' + t;
+  document.getElementById('open').onclick = function () { location.href = app; };
+  document.getElementById('copy').onclick = function () {
+    var i = document.getElementById('code'); i.select();
+    try { navigator.clipboard.writeText(i.value); } catch (e) { document.execCommand('copy'); }
+    this.textContent = 'Copied';
+  };
+  if (!/Android|iPhone|iPad/i.test(navigator.userAgent)) setTimeout(function () { location.href = app; }, 400);
+})();
+</script>
+</body></html>
